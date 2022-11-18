@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Coffee } from './entities/coffee.entity';
-import { CreateCoffeeDto } from "./dto/create-coffee.dto";
-import { UpdateCoffeeDto } from "./dto/update-coffee.dto";
+import { CreateCoffeeDto } from './dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
 @Injectable()
 export class CoffeesService {
@@ -18,8 +18,8 @@ export class CoffeesService {
     return this.coffees;
   }
 
-  findOne(id: string) {
-    const coffee = this.coffees.find((item) => item.id === +id);
+  findOne(id: number) {
+    const coffee = this.coffees.find((item) => item.id === id);
     if (!coffee) {
       throw new NotFoundException(`Coffee with id: ${id} doesn't exists`);
     }
@@ -30,7 +30,7 @@ export class CoffeesService {
     return this.coffees.push(createCoffeeDto);
   }
 
-  update(id: string, updateCoffeeDto: any) {
+  update(id: number, updateCoffeeDto: any) {
     const existingCoffee = this.findOne(id);
     if (existingCoffee) {
       // update the existing entry

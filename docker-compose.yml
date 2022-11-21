@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: pas123
+      POSTGRES_PASSWORD: pass123
     restart: always
     ports:
       - "5432:5432"

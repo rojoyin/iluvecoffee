@@ -38,7 +38,7 @@ export class CoffeesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.coffeeService.remove(id);
   }
 }

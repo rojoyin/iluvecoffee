@@ -36,17 +36,29 @@ export class CoffeesService {
     return coffee;
   }
 
-  create(createCoffeeDto: CreateCoffeeDto) {
-    const coffee = this.coffeeRepository.create(createCoffeeDto);
+  async create(createCoffeeDto: CreateCoffeeDto) {
+    const flavors = await Promise.all(
+      createCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
+    );
+    const coffee = this.coffeeRepository.create({
+      ...createCoffeeDto,
+      flavors,
+    });
     return this.coffeeRepository.save(coffee);
   }
 
   async update(id: number, updateCoffeeDto: UpdateCoffeeDto) {
+    const flavors =
+      updateCoffeeDto.flavors &&
+      (await Promise.all(
+        updateCoffeeDto.flavors.map((name) => this.preloadFlavorByName(name)),
+      ));
     const coffee = await this.coffeeRepository.preload({
       id: id,
       ...updateCoffeeDto,
-    }); // preload creates a new object with the things passed in, and overrides
-    // the fields. If no object is found in the DB, undefined is returned
+      flavors,
+    }); // preload creates a new object with the things passed in, and overrides the fields.
+    // If no object is found in the DB, undefined is returned
 
     if (!coffee) {
       throw new NotFoundException(`Coffee #${id} not found`);

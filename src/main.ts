@@ -10,6 +10,9 @@ async function bootstrap() {
       transform: true, // transform received objects to DTO objects,
       // and also converts path and query params to what is cast to
       forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true, // this will convert the received parameter to the right types declared with TypeScript
+      },
     }),
   );
   await app.listen(3000);

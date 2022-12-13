@@ -6,10 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
+import appConfig from './config/app.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      load: [appConfig],
       envFilePath: '.environment', // default .env at root. Also, an array of strings is possible
       ignoreEnvFile: false, // set to true if your env vars come from UI provider (heroku, etc)
       validationSchema: Joi.object({

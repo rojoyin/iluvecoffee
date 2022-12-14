@@ -8,8 +8,8 @@ import { Flavor } from './entities/flavor.entity';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffe.constants';
-import { ConfigService, ConfigType } from "@nestjs/config";
-import coffeesConfig from "./config/coffees.config";
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 @Injectable({ scope: Scope.REQUEST })
 export class CoffeesService {

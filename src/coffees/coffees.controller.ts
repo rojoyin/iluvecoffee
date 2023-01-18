@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -17,6 +18,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
+import { Public } from '../common/decorators/public.decorator';
 
 // @UsePipes(ValidationPipe) // using ValidationPipe class scope: controller
 @UsePipes(new ValidationPipe()) // using ValidationPipe instance, useful for custom configuration,
@@ -32,6 +34,8 @@ export class CoffeesController {
   }
 
   @UsePipes(ValidationPipe) // scope: method (route handler)
+  // @SetMetadata('isPublic', true) // this is a bare-bones way of doing this, not so good for code reuse
+  @Public() // defined as a custom decorator, easily reusable
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     return this.coffeeService.findAll(paginationQuery);

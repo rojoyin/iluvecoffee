@@ -16,7 +16,7 @@ import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
-import { Request } from 'express';
+import { raw, Request } from 'express';
 import { REQUEST } from '@nestjs/core';
 import { Public } from '../common/decorators/public.decorator';
 
@@ -37,7 +37,8 @@ export class CoffeesController {
   // @SetMetadata('isPublic', true) // this is a bare-bones way of doing this, not so good for code reuse
   @Public() // defined as a custom decorator, easily reusable
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     return this.coffeeService.findAll(paginationQuery);
   }
 

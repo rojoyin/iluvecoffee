@@ -52,7 +52,10 @@ export class CoffeesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body(ValidationPipe) updateCoffeeDto: UpdateCoffeeDto) {
+  update(
+    @Param('id') id: number,
+    @Body(ValidationPipe) updateCoffeeDto: UpdateCoffeeDto,
+  ) {
     //@Body(ValidationPipe) applies validation to this specific parameter, only supported by pipes
     return this.coffeeService.update(id, updateCoffeeDto);
   }

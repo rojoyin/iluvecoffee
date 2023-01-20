@@ -19,6 +19,7 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { raw, Request } from 'express';
 import { REQUEST } from '@nestjs/core';
 import { Public } from '../common/decorators/public.decorator';
+import { ParseIntPipe } from '../common/pipes/parse-int/parse-int.pipe';
 
 // @UsePipes(ValidationPipe) // using ValidationPipe class scope: controller
 @UsePipes(new ValidationPipe()) // using ValidationPipe instance, useful for custom configuration,
@@ -43,7 +44,7 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.coffeeService.findOne(id);
   }
 

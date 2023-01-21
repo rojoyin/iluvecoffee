@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { WrapResponseInterceptor } from './common/interceptor/wrap-response.interceptor';
 import { TimeoutInterceptor } from './common/interceptor/timeout/timeout.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,6 +24,15 @@ async function bootstrap() {
     new WrapResponseInterceptor(),
     new TimeoutInterceptor(),
   );
+
+  const options = new DocumentBuilder()
+    .setTitle('iluvecofee')
+    .setDescription('Coffee application')
+    .setVersion('1.0')
+    .build(); // builds a document following openapi specs
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
   await app.listen(3000);
 }
 bootstrap();

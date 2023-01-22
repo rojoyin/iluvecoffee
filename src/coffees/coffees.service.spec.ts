@@ -6,6 +6,7 @@ import { Flavor } from './entities/flavor.entity';
 import { Coffee } from './entities/coffee.entity';
 import { COFFEE_BRANDS } from './coffe.constants';
 import { ConfigService, getConfigToken } from '@nestjs/config';
+import { NotFoundException } from "@nestjs/common";
 
 type MockitoRepository<T = any> = Partial<
   Record<keyof Repository<T>, jest.Mock>
@@ -63,6 +64,20 @@ describe('CoffeesService', () => {
         coffeeRepository.findOne.mockReturnValue(expectedCoffee);
         const foundCoffee = await service.findOne(coffeeID);
         expect(foundCoffee).toEqual(expectedCoffee);
+      });
+    });
+
+    describe('otherwise', () => {
+      it('should throw a "NotFoundException"', async () => {
+        const coffeeId =1;
+        coffeeRepository.findOne.mockReturnValue(undefined);
+
+        try {
+          await service.findOne(coffeeId);
+        } catch (err) {
+          expect(err).toBeInstanceOf(NotFoundException);
+          expect(err.message).toEqual(`Coffee with id: ${coffeeId} doesn't exists`);
+        }
       });
     });
   });

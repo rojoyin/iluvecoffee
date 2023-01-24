@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { Test, TestingModule } from '@nestjs/testing';
 import { CoffeesModule } from '../../src/coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -22,6 +22,18 @@ describe('[Feature] Coffees - /coffees', () => {
       ],
     }).compile();
     app = moduleFixture.createNestApplication();
+
+    // we need to add all the building blocks that make sense for this test;
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+        forbidNonWhitelisted: true,
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
+      }),
+    );
     await app.init();
   });
 

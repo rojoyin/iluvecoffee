@@ -21,7 +21,7 @@ describe('[Feature] Coffees - /coffees', () => {
         }),
       ],
     }).compile();
-    const app = moduleFixture.createNestApplication();
+    app = moduleFixture.createNestApplication();
     await app.init();
   });
 

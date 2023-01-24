@@ -9,7 +9,7 @@ describe('AppController (e2e)', () => {
   beforeAll(async () => {
     // beforeAll because we don't want to recreate the application for each test
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [AppModule], // by importing AppModule we create a FULL application, including DB connections and all controllers, services, etc
     }).compile();
 
     app = moduleFixture.createNestApplication(); // reference of an entire nest application

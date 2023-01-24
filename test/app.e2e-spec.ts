@@ -3,6 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
+// Each e2e test should test a given module in isolation from the others,
+// we should import a specific module and test it from a e2e perspective
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 

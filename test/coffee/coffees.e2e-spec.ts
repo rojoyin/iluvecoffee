@@ -68,7 +68,14 @@ describe('[Feature] Coffees - /coffees', () => {
         expect(body[0]).toEqual(expectedPartialCoffee);
       });
   });
-  it.todo('Get one [GET /:id]');
+  it('Get one [GET /:id]', async () => {
+    return request(app.getHttpServer())
+      .get('/coffees/1')
+      .expect(HttpStatus.OK)
+      .then(({ body }) => {
+        expect(body).toEqual(expectedPartialCoffee);
+      });
+  });
   it.todo('Update one [PATCH /:id]');
   it.todo('Delete one [DELETE /:id]');
 

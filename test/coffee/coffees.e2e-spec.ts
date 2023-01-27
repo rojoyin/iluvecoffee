@@ -1,9 +1,10 @@
-import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
+import { HttpServer, HttpStatus, INestApplication, ValidationPipe } from "@nestjs/common";
 import { Test, TestingModule } from '@nestjs/testing';
 import { CoffeesModule } from '../../src/coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as request from 'supertest';
 import { CreateCoffeeDto } from '../../src/coffees/dto/create-coffee.dto';
+import { UpdateCoffeeDto } from '../../src/coffees/dto/update-coffee.dto';
 
 describe('[Feature] Coffees - /coffees', () => {
   const coffee = {
@@ -19,6 +20,7 @@ describe('[Feature] Coffees - /coffees', () => {
     ),
   });
   let app: INestApplication;
+  let httpServer: HttpServer;
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
@@ -36,6 +38,7 @@ describe('[Feature] Coffees - /coffees', () => {
       ],
     }).compile();
     app = moduleFixture.createNestApplication();
+    httpServer = app.getHttpServer();
 
     // we need to add all the building blocks that make sense for this test;
     app.useGlobalPipes(
@@ -76,7 +79,24 @@ describe('[Feature] Coffees - /coffees', () => {
         expect(body).toEqual(expectedPartialCoffee);
       });
   });
-  it.todo('Update one [PATCH /:id]');
+  it('Update one [PATCH /:id]', () => {
+    const updateCoffeeDto: UpdateCoffeeDto = {
+      ...coffee,
+      name: 'New and Improved Shipwreck Roast',
+    };
+    return request(httpServer)
+      .patch('/coffees/1')
+      .send(updateCoffeeDto)
+      .then(({ body }) => {
+        expect(body.name).toEqual(updateCoffeeDto.name);
+
+        return request(httpServer)
+          .get('/coffees/1')
+          .then(({ body }) => {
+            expect(body.name).toEqual(updateCoffeeDto.name);
+          });
+      });
+  });
   it.todo('Delete one [DELETE /:id]');
 
   afterAll(async () => {

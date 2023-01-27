@@ -55,7 +55,7 @@ describe('[Feature] Coffees - /coffees', () => {
   });
 
   it('Create [POST /]', async () => {
-    return request(app.getHttpServer())
+    return request(httpServer)
       .post('/coffees')
       .send(coffee as CreateCoffeeDto)
       .expect(HttpStatus.CREATED)
@@ -64,7 +64,7 @@ describe('[Feature] Coffees - /coffees', () => {
       });
   });
   it('Get all [GET /]', async () => {
-    return request(app.getHttpServer())
+    return request(httpServer)
       .get('/coffees')
       .expect(HttpStatus.OK)
       .then(({ body }) => {
@@ -72,7 +72,7 @@ describe('[Feature] Coffees - /coffees', () => {
       });
   });
   it('Get one [GET /:id]', async () => {
-    return request(app.getHttpServer())
+    return request(httpServer)
       .get('/coffees/1')
       .expect(HttpStatus.OK)
       .then(({ body }) => {

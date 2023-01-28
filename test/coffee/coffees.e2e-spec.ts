@@ -106,8 +106,11 @@ describe('[Feature] Coffees - /coffees', () => {
     return request(httpServer)
       .del('/coffees/1')
       .expect(HttpStatus.OK)
-      .then(() => { return request(httpServer).get('/coffees/1').expect(HttpStatus.NOT_FOUND) }
-      );
+      .then(() => {
+        return request(httpServer)
+          .get('/coffees/1')
+          .expect(HttpStatus.NOT_FOUND);
+      });
   });
 
   afterAll(async () => {

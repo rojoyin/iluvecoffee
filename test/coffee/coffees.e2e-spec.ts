@@ -102,7 +102,13 @@ describe('[Feature] Coffees - /coffees', () => {
           });
       });
   });
-  it.todo('Delete one [DELETE /:id]');
+  it('Delete one [DELETE /:id]', async () => {
+    return request(httpServer)
+      .del('/coffees/1')
+      .expect(HttpStatus.OK)
+      .then(() => { return request(httpServer).get('/coffees/1').expect(HttpStatus.NOT_FOUND) }
+      );
+  });
 
   afterAll(async () => {
     await app.close();
